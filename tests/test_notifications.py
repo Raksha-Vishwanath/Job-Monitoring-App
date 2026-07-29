@@ -17,3 +17,19 @@ def test_render_new_jobs_email_groups_by_company():
     assert "Location: Austin" in body
     assert "URL: https://example.com/dd" in body
 
+
+def test_render_new_jobs_email_filters_seniority_titles():
+    jobs = [
+        Job(company="Datadog", job_id="1", title="Senior Software Engineer", location="Boston", url="https://example.com/dd"),
+        Job(company="Datadog", job_id="2", title="Staff Backend Engineer", location="Austin", url="https://example.com/cf"),
+        Job(company="Cloudflare", job_id="3", title="Software Engineer", location="Remote", url="https://example.com/remote"),
+    ]
+
+    subject, body = render_new_jobs_email(jobs)
+
+    assert subject == "New jobs found: 1"
+    assert "Senior Software Engineer" not in body
+    assert "Staff Backend Engineer" not in body
+    assert "Software Engineer" in body
+    assert "## Cloudflare" in body
+
