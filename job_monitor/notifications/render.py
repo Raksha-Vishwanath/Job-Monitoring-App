@@ -6,7 +6,23 @@ from typing import Iterable
 from job_monitor.models.job import Job
 
 
-SENIORITY_KEYWORDS = ("lead", "leader", "director", "manager", "mgr", "senior", "sr", "staff", "president")
+SENIORITY_KEYWORDS = (
+    "lead",
+    "leader",
+    "director",
+    "manager",
+    "mgr",
+    "senior",
+    "sr",
+    "staff",
+    "president",
+    "vp",
+    "iii",
+    "ii",
+    "banker",
+    "chief",
+    "principal",
+)
 
 
 def _should_include_job(job: Job) -> bool:
