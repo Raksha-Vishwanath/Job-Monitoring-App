@@ -46,6 +46,7 @@ BLOCKED_LOCATION_KEYWORDS = (
     "hong kong",
     "australia",
     "luxembourg",
+    "italy"
     "singapore",
 )
 
