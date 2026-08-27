@@ -7,6 +7,7 @@ from job_monitor.companies.accenture import collector as accenture_collector
 from job_monitor.companies.airbnb import collector as airbnb_collector
 from job_monitor.companies.anthropic import collector as anthropic_collector
 from job_monitor.companies.akamai import collector as akamai_collector
+from job_monitor.companies.aws import collector as aws_collector
 from job_monitor.companies.coinbase import collector as coinbase_collector
 from job_monitor.companies.cloudflare import collector as cloudflare_collector
 from job_monitor.companies.crowdstrike import collector as crowdstrike_collector
@@ -47,4 +48,5 @@ def build_collectors() -> list[JobCollector]:
         akamai_collector(),
         workday_collector(),
         anthropic_collector(),
+        aws_collector(),
     ]

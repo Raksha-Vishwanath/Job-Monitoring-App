@@ -6,7 +6,7 @@ from datetime import date
 from urllib.parse import urljoin
 
 from job_monitor.collectors.base import JobCollector
-from job_monitor.http_client import build_session, get_with_timeout
+from job_monitor.http_client import build_session
 from job_monitor.models.job import Job
 from job_monitor.utils import stable_job_hash
 
@@ -19,7 +19,7 @@ class WorkdayCollector(JobCollector):
     base_url: str
     tenant: str
     site: str
-    page_size: int = 100
+    page_size: int = 10
     request_timeout: float = 20.0
 
     def __post_init__(self) -> None:
@@ -28,13 +28,19 @@ class WorkdayCollector(JobCollector):
     def fetch_jobs(self) -> list[Job]:
         jobs: list[Job] = []
         offset = 0
+        total: int | None = None
 
         while True:
             payload = self._fetch_page(offset=offset)
             page_jobs = self._parse_payload(payload)
             jobs.extend(page_jobs)
 
-            if len(page_jobs) < self.page_size:
+            payload_total = payload.get("total")
+            if isinstance(payload_total, int) and payload_total > 0:
+                total = payload_total
+            if total is not None and offset + self.page_size >= total:
+                break
+            if not page_jobs:
                 break
             offset += self.page_size
 
@@ -44,8 +50,19 @@ class WorkdayCollector(JobCollector):
         return list(unique.values())
 
     def _fetch_page(self, *, offset: int) -> dict:
-        url = f"{self.base_url}/wday/cxs/{self.tenant}/{self.site}/jobs?limit={self.page_size}&offset={offset}"
-        response = get_with_timeout(self._session, url, timeout=self.request_timeout)
+        url = f"{self.base_url}/wday/cxs/{self.tenant}/{self.site}/jobs"
+        response = self._session.post(
+            url,
+            json={
+                "appliedFacets": {},
+                "limit": self.page_size,
+                "offset": offset,
+                "searchText": "",
+            },
+            headers={"Accept": "application/json", "Content-Type": "application/json"},
+            timeout=self.request_timeout,
+        )
+        response.raise_for_status()
         return json.loads(response.text)
 
     def _parse_payload(self, payload: dict) -> list[Job]:

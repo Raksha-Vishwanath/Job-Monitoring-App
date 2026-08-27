@@ -1,10 +1,6 @@
-from job_monitor.collectors.html_board import HtmlBoardCollector
+from job_monitor.collectors.greenhouse import GreenhouseCollector
 
 
-def collector() -> HtmlBoardCollector:
-    return HtmlBoardCollector(
-        company="Zscaler",
-        start_url="https://www.zscaler.com/careers/search",
-        job_href_patterns=[r"/jobs?/"],
-    )
+def collector() -> GreenhouseCollector:
+    return GreenhouseCollector(company="Zscaler", board_slug="zscaler")
 

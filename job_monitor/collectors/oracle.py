@@ -20,6 +20,7 @@ class OracleCollector(JobCollector):
     site_number: str
     api_base_url: str
     job_base_url: str
+    location_id: str | None = None
     page_size: int = 200
     request_timeout: float = 20.0
 
@@ -57,8 +58,11 @@ class OracleCollector(JobCollector):
             f"?onlyData=true&expand=requisitionList.secondaryLocations,"
             f"requisitionList.workLocation,requisitionList.otherWorkLocations,"
             f"requisitionList.requisitionFlexFields&finder=findReqs;"
-            f"siteNumber={self.site_number},limit={self.page_size},offset={offset}"
+            f"siteNumber={self.site_number}"
         )
+        if self.location_id:
+            url += f",locationId={self.location_id}"
+        url += f",limit={self.page_size},offset={offset}"
         last_error: Exception | None = None
         for _ in range(3):
             response = get_with_timeout(self._session, url, timeout=self.request_timeout)

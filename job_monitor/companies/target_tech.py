@@ -1,10 +1,11 @@
-from job_monitor.collectors.html_board import HtmlBoardCollector
+from job_monitor.collectors.workday import WorkdayCollector
 
 
-def collector() -> HtmlBoardCollector:
-    return HtmlBoardCollector(
+def collector() -> WorkdayCollector:
+    return WorkdayCollector(
         company="Target Tech",
-        start_url="https://jobs.target.com/",
-        job_href_patterns=[r"/job/", r"/jobs?/"],
+        base_url="https://target.wd5.myworkdayjobs.com",
+        tenant="target",
+        site="targetcareers",
     )
 
