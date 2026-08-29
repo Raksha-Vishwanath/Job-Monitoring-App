@@ -80,7 +80,9 @@ SENIORITY_KEYWORDS = (
     "admin",
     "paralegal",
     "mechanic",
-    "mattress professional"
+    "mattress professional",
+    "it support",
+    "lab"
 )
 
 BLOCKED_LOCATION_KEYWORDS = (
