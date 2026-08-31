@@ -2,7 +2,7 @@ name: daily_monitor
 
 on:
   schedule:
-    - cron: "30 2 * * *"
+    - cron: "17 14 * * *"
   workflow_dispatch:
 
 permissions:
