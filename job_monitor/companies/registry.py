@@ -16,6 +16,7 @@ from job_monitor.companies.datadog import collector as datadog_collector
 from job_monitor.companies.hinge_health import collector as hinge_health_collector
 from job_monitor.companies.jpmorgan import collector as jpmorgan_collector
 from job_monitor.companies.openai import collector as openai_collector
+from job_monitor.companies.oracle_corp import collector as oracle_collector
 from job_monitor.companies.palantir_technologies import collector as palantir_technologies_collector
 from job_monitor.companies.robinhood import collector as robinhood_collector
 from job_monitor.companies.target_tech import collector as target_tech_collector
@@ -27,7 +28,8 @@ from job_monitor.companies.zscaler import collector as zscaler_collector
 
 def build_collectors() -> list[JobCollector]:
     # Active monitored collectors. Removed companies: LinkedIn, Stripe,
-    # Palo Alto Networks, ServiceNow, Capital One, Fidelity, Expedia Group, Snowflake
+    # Palo Alto Networks, ServiceNow, Capital One, Fidelity, Expedia Group,
+    # Snowflake and the previously unregistered career-site integrations
     return [
         datadog_collector(),
         cloudflare_collector(),
@@ -49,4 +51,5 @@ def build_collectors() -> list[JobCollector]:
         workday_collector(),
         anthropic_collector(),
         aws_collector(),
+        oracle_collector(),
     ]
